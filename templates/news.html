@@ -1,0 +1,33 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+ 
+{% block title %}
+{{ flatpage.title }}
+{% endblock title %}
+
+{% block content %}
+    <h1>Все новости</h1>
+	<h2>Количество новостей: {{ news|length }}</h2>
+       <table>
+           <tr>
+               <td>Заголовок</td>
+               <td>Дата публикации</td>
+               <td>Превью</td>
+           </tr>
+           {% for event in news|dictsortreversed:'post_time_in' %}
+           <tr>
+               <td>{{ event.post_header|censor }}</td>
+               <td>{{ event.post_time_in|date:'d M Y' }}</td>
+               <td>{{ event.post_text|truncatechars:20|censor }}</td>
+           </tr>
+           {% endfor %}
+
+       </table>
+{% endblock content %}
+
+
+<!-- def censor(text):
+    окончательный_текст = text
+    for плохое_слово in список_плохих_слов:
+        окончательный_текст = окончательный_текст.replace(плохое_слово, плохое_слово[:1] + '*' * (len(плохое_слово) - 1))
+    return окончательный текст -->
